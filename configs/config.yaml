@@ -17,3 +17,9 @@ log:
   format: "text" # 可选: "json", "text"
   output: "stdout" # 可选: "stdout", "file", "both"
   file_path: "hecate.log" # 当 output 包含 file 时生效
+
+
+redis:
+  addr: "127.0.0.1:6379"
+  password: ""
+  db: 0

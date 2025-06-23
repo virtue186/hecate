@@ -19,6 +19,12 @@ type DatabaseConfig struct {
 	SSLMode  string `mapstructure:"sslmode"`
 }
 
+type RedisConfig struct {
+	Addr     string `mapstructure:"addr"`
+	Password string `mapstructure:"password"`
+	DB       int    `mapstructure:"db"`
+}
+
 type LogConfig struct {
 	Level    string `mapstructure:"level"`
 	Format   string `mapstructure:"format"`
@@ -30,6 +36,7 @@ type Config struct {
 	Server   ServerConfig   `mapstructure:"server"`
 	Database DatabaseConfig `mapstructure:"database"`
 	Log      LogConfig      `mapstructure:"log"`
+	Redis    RedisConfig    `mapstructure:"redis"`
 }
 
 // 全局配置变量

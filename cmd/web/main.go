@@ -6,6 +6,7 @@ import (
 	"hecate/internal/app/router"
 	"hecate/internal/app/service"
 	"hecate/internal/app/store"
+	"hecate/internal/pkg/asynq_client"
 	"hecate/internal/pkg/config"
 	"hecate/internal/pkg/database"
 	"hecate/internal/pkg/logger"
@@ -28,9 +29,12 @@ func main() {
 		log.WithError(err).Fatal("Failed to initialize database")
 	}
 
+	asynq_client.InitClient(&cfg.Redis)
+	client := asynq_client.GetClient()
+
 	db := database.GetDB()
 	projectStore := store.NewProjectStore(db)
-	projectService := service.NewProjectService(projectStore)
+	projectService := service.NewProjectService(projectStore, client)
 	r := gin.Default()
 
 	router.RegisterRoutes(r, projectService, log)
