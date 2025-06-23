@@ -1,0 +1,19 @@
+# 这是项目的配置文件
+server:
+  port: "8080" # API 服务监听的端口
+
+# 数据库配置
+database:
+  host: "localhost"
+  port: 5432
+  user: "hecate"      # 你的 PostgreSQL 用户名
+  password: "010526.." # 你的 PostgreSQL 密码
+  dbname: "hecate_db"     # 数据库名称
+  sslmode: "disable"    # 暂时在自己的开发环境禁用SSL
+
+# 日志配置
+log:
+  level: "debug"  # 可选: "debug", "info", "warn", "error", "fatal", "panic"
+  format: "text" # 可选: "json", "text"
+  output: "stdout" # 可选: "stdout", "file", "both"
+  file_path: "hecate.log" # 当 output 包含 file 时生效
