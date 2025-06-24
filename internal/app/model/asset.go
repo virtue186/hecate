@@ -13,7 +13,7 @@ const (
 type Asset struct {
 	BaseModel
 	ProjectID uuid.UUID `gorm:"type:uuid;not null;index" json:"project_id"`
-	Value     string    `gorm:"type:varchar(512);not null" json:"value"`
-	Type      AssetType `gorm:"type:varchar(50);not null" json:"type"`
-	Source    string    `gorm:"type:varchar(100)" json:"source"` // 发现来源，如 "subfinder", "nmap"
+	Value     string    `gorm:"type:varchar(512);not null;uniqueIndex:idx_asset_value_type" json:"value"`
+	Type      AssetType `gorm:"type:varchar(50);not null;uniqueIndex:idx_asset_value_type" json:"type"`
+	Source    string    `gorm:"type:varchar(255)" json:"source"` // 发现来源，如 "subfinder,nmap"
 }

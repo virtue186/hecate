@@ -11,6 +11,7 @@ type ProjectStore interface {
 	Create(project *model.Project) error
 	FindByID(id uuid.UUID) (*model.Project, error)              // <--- 确保这一行存在！
 	FindAll(page, pageSize int) ([]model.Project, int64, error) // <--- 确保这一行存在！
+	FindTargetByID(id uuid.UUID) (*model.Target, error)
 }
 
 // NewProjectStore creates a new ProjectStore.
@@ -65,4 +66,14 @@ func (s *dbProjectStore) FindAll(page, pageSize int) ([]model.Project, int64, er
 	}
 
 	return projects, total, nil
+}
+
+func (s *dbProjectStore) FindTargetByID(id uuid.UUID) (*model.Target, error) {
+	var target model.Target
+	// 使用 First 来根据主键查询，如果找不到会返回 gorm.ErrRecordNotFound
+	err := s.db.First(&target, "id = ?", id).Error
+	if err != nil {
+		return nil, err
+	}
+	return &target, nil
 }

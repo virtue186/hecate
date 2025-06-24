@@ -15,16 +15,9 @@ func (p *TaskProcessor) HandlePortScanTask(ctx context.Context, t *asynq.Task) e
 		return fmt.Errorf("failed to unmarshal payload: %w", asynq.SkipRetry)
 	}
 
-	p.Log.Infof("Starting port scan for target ID: %s", payload.AssetID)
-
-	// !!! 核心逻辑占位符 !!!
-	// 实际逻辑：
-	// 1. 根据 TargetID 从数据库获取IP/CIDR
-	// 2. 调用 nmap/naabu 等工具进行扫描
-	// 3. 将结果存入数据库
-	time.Sleep(10 * time.Second)
-
-	p.Log.Infof("Finished port scan for target ID: %s", payload.AssetID)
+	p.Log.Infof("[Placeholder] Starting port scan for asset ID: %s", payload.AssetID)
+	time.Sleep(5 * time.Second) // 模拟耗时
+	p.Log.Infof("[Placeholder] Finished port scan for asset ID: %s", payload.AssetID)
 
 	return nil
 }

@@ -18,12 +18,15 @@ type dbAssetStore struct {
 	db *gorm.DB
 }
 
-// CreateBatch 批量创建资产，如果已存在则忽略
+// CreateBatch 批量创建资产。
+// GORM 在使用 PostgreSQL 时，Create a slice 会自动使用 `INSERT ... RETURNING "id"`，
+// 这会将新创建记录的 ID 填充回传入的 assets 切片中。
+// 我们还使用 OnConflict 来优雅地处理已存在的资产。
 func (s *dbAssetStore) CreateBatch(assets []*model.Asset) error {
 	if len(assets) == 0 {
 		return nil
 	}
-	// 使用 OnConflict(clause.DoNothing) 来避免因为重复发现而导致的插入错误
-	// 它会优雅地忽略掉那些已经存在的资产
+	// OnConflict(clause.DoNothing) 会在遇到唯一索引冲突时，直接忽略该条记录的插入。
+	// 重要的是，GORM 的 Create 方法在 Create a slice 时，会回填ID。
 	return s.db.Clauses(clause.OnConflict{DoNothing: true}).Create(&assets).Error
 }
