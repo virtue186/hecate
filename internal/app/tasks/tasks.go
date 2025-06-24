@@ -16,8 +16,8 @@ func NewSubdomainDiscoveryTask(targetID uuid.UUID) (*asynq.Task, error) {
 }
 
 // NewPortScanTask 创建一个新的端口扫描任务
-func NewPortScanTask(targetID uuid.UUID) (*asynq.Task, error) { // 新增
-	payload, err := json.Marshal(PortScanPayload{TargetID: targetID})
+func NewPortScanTask(assetID uuid.UUID) (*asynq.Task, error) { // [修改] 参数变为 assetID
+	payload, err := json.Marshal(PortScanPayload{AssetID: assetID}) // [修改] 使用新的 Payload
 	if err != nil {
 		return nil, err
 	}

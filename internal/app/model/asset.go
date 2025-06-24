@@ -1,0 +1,19 @@
+package model
+
+import "github.com/google/uuid"
+
+// AssetType 定义了资产的类型
+type AssetType string
+
+const (
+	AssetTypeSubdomain AssetType = "subdomain"
+	AssetTypeIP        AssetType = "ip"
+)
+
+type Asset struct {
+	BaseModel
+	ProjectID uuid.UUID `gorm:"type:uuid;not null;index" json:"project_id"`
+	Value     string    `gorm:"type:varchar(512);not null" json:"value"`
+	Type      AssetType `gorm:"type:varchar(50);not null" json:"type"`
+	Source    string    `gorm:"type:varchar(100)" json:"source"` // 发现来源，如 "subfinder", "nmap"
+}

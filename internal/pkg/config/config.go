@@ -32,11 +32,23 @@ type LogConfig struct {
 	FilePath string `mapstructure:"file_path"`
 }
 
+type SubfinderConfig struct {
+	Threads            int    `mapstructure:"threads"`
+	Timeout            int    `mapstructure:"timeout"`
+	MaxEnumerationTime int    `mapstructure:"max_enumeration_time"`
+	AllSources         bool   `mapstructure:"all_sources"`
+	ProviderConfigFile string `mapstructure:"provider_config_file"`
+}
+type ToolsConfig struct {
+	Subfinder SubfinderConfig `mapstructure:"subfinder"`
+}
+
 type Config struct {
 	Server   ServerConfig   `mapstructure:"server"`
 	Database DatabaseConfig `mapstructure:"database"`
 	Log      LogConfig      `mapstructure:"log"`
 	Redis    RedisConfig    `mapstructure:"redis"`
+	Tools    ToolsConfig    `mapstructure:"tools"`
 }
 
 // 全局配置变量

@@ -14,5 +14,5 @@ type SubdomainDiscoveryPayload struct {
 
 // PortScanPayload 端口扫描任务的载荷
 type PortScanPayload struct { // 新增
-	TargetID uuid.UUID
+	AssetID uuid.UUID
 }

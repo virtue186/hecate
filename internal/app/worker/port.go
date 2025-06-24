@@ -15,7 +15,7 @@ func (p *TaskProcessor) HandlePortScanTask(ctx context.Context, t *asynq.Task) e
 		return fmt.Errorf("failed to unmarshal payload: %w", asynq.SkipRetry)
 	}
 
-	p.Log.Infof("Starting port scan for target ID: %s", payload.TargetID)
+	p.Log.Infof("Starting port scan for target ID: %s", payload.AssetID)
 
 	// !!! 核心逻辑占位符 !!!
 	// 实际逻辑：
@@ -24,7 +24,7 @@ func (p *TaskProcessor) HandlePortScanTask(ctx context.Context, t *asynq.Task) e
 	// 3. 将结果存入数据库
 	time.Sleep(10 * time.Second)
 
-	p.Log.Infof("Finished port scan for target ID: %s", payload.TargetID)
+	p.Log.Infof("Finished port scan for target ID: %s", payload.AssetID)
 
 	return nil
 }
