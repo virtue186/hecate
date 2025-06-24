@@ -7,6 +7,7 @@ import (
 	"hecate/internal/app/model"
 	"hecate/internal/app/store"
 	"hecate/internal/app/tasks"
+	"hecate/internal/pkg/config"
 	"hecate/internal/pkg/logger"
 	"hecate/internal/pkg/utils"
 	"time"
@@ -19,10 +20,11 @@ type ProjectService interface {
 
 }
 
-func NewProjectService(store store.ProjectStore, client *asynq.Client) ProjectService {
+func NewProjectService(store store.ProjectStore, client *asynq.Client, cfg *config.Config) ProjectService {
 	return &projectService{
 		store:       store,
-		asynqClient: client, // 新增
+		asynqClient: client,
+		cfg:         cfg,
 	}
 
 }
@@ -30,6 +32,7 @@ func NewProjectService(store store.ProjectStore, client *asynq.Client) ProjectSe
 type projectService struct {
 	store       store.ProjectStore
 	asynqClient *asynq.Client
+	cfg         *config.Config
 }
 
 func (s *projectService) CreateProject(req *dto.CreateProjectRequest) (*dto.ProjectResponse, error) {
@@ -69,10 +72,12 @@ func (s *projectService) CreateProject(req *dto.CreateProjectRequest) (*dto.Proj
 		switch targetType {
 		case utils.Domain:
 			log.Infof("Dispatching subdomain discovery for domain: %s", target.Value)
-			task, err = tasks.NewSubdomainDiscoveryTask(target.ID)
+			timeout := time.Duration(s.cfg.Tools.Subfinder.TaskTimeoutSeconds) * time.Second
+			maxRetry := s.cfg.Tools.Subfinder.TaskMaxRetry
+			task, err = tasks.NewSubdomainDiscoveryTask(target.ID, timeout, maxRetry, "discovery")
 		case utils.IP, utils.CIDR:
 			log.Infof("Dispatching port scan for IP/CIDR: %s", target.Value)
-			task, err = tasks.NewPortScanTask(target.ID)
+			task, err = tasks.NewPortScanTask(target.ID, "discovery")
 		default:
 			log.Warnf("Unknown target type for value: %s, skipping task dispatch.", target.Value)
 		}

@@ -69,7 +69,7 @@ func (p *TaskProcessor) HandleSubdomainDiscoveryTask(ctx context.Context, t *asy
 		if asset.ID == uuid.Nil {
 			continue
 		}
-		portScanTask, err := tasks.NewPortScanTask(asset.ID)
+		portScanTask, err := tasks.NewPortScanTask(asset.ID, "default")
 		if err != nil {
 			p.Log.WithError(err).Errorf("Failed to create port scan task for asset %s", asset.Value)
 			continue

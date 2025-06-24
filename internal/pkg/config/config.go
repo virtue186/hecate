@@ -38,6 +38,8 @@ type SubfinderConfig struct {
 	MaxEnumerationTime int    `mapstructure:"max_enumeration_time"`
 	AllSources         bool   `mapstructure:"all_sources"`
 	ProviderConfigFile string `mapstructure:"provider_config_file"`
+	TaskTimeoutSeconds int    `mapstructure:"task_timeout_seconds"` // 新增
+	TaskMaxRetry       int    `mapstructure:"task_max_retry"`       // 新增
 }
 type ToolsConfig struct {
 	Subfinder SubfinderConfig `mapstructure:"subfinder"`

@@ -46,8 +46,14 @@ func main() {
 	asynqServer := asynq.NewServer(
 		redisOpt,
 		asynq.Config{
+			Concurrency: 10,
+			Logger:      log,
+			// Queues 定义了不同队列的优先级。数字越大，优先级越高。
+			// Worker 会优先从高优先级的队列中取任务。
 			Queues: map[string]int{
-				"default": 10, // "default" 队列的并发度为 10
+				"critical":  6, // 比如用于处理紧急的0day扫描任务
+				"default":   3, // 用于处理常规的、轻量级的任务
+				"discovery": 1, // 优先级最低，用于处理耗时的初始发现任务
 			},
 		},
 	)

@@ -31,8 +31,10 @@ tools:
     # 单个数据源的超时时间 (秒)
     timeout: 30
     # 整个枚举过程的最大时长 (分钟)
-    max_enumeration_time: 30
+    max_enumeration_time: 120
     # 是否使用所有数据源 (包括需要 API Key 的)
     all_sources: true
     # subfinder 的 provider 配置文件路径。用于配置各数据源的 API Key。
     provider_config_file: "configs/subfinder_api.yaml"
+    task_timeout_seconds: 7200 # 任务在 Asynq 中的超时时间(秒)
+    task_max_retry: 2          # 任务失败后的最大重试次数

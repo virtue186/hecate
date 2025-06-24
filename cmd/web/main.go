@@ -34,7 +34,7 @@ func main() {
 
 	db := database.GetDB()
 	projectStore := store.NewProjectStore(db)
-	projectService := service.NewProjectService(projectStore, client)
+	projectService := service.NewProjectService(projectStore, client, cfg)
 	r := gin.Default()
 
 	router.RegisterRoutes(r, projectService, log)
