@@ -7,11 +7,13 @@ import (
 	"hecate/internal/pkg/config"
 )
 
-// TaskProcessor 持有所有任务处理器需要的依赖
+// TaskProcessor 所有任务处理器需要的依赖
 type TaskProcessor struct {
-	Log          *logrus.Logger
-	Cfg          *config.Config
-	ProjectStore store.ProjectStore
-	AssetStore   store.AssetStore
-	AsynqClient  *asynq.Client
+	Log            *logrus.Logger
+	Cfg            *config.Config
+	ProjectStore   store.ProjectStore
+	AssetStore     store.AssetStore
+	AsynqClient    *asynq.Client
+	DnsRecordStore store.DnsRecordStore
+	PortStore      store.PortStore
 }

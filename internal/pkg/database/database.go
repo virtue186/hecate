@@ -28,7 +28,7 @@ func InitDB(cfg *config.DatabaseConfig) (*gorm.DB, error) {
 	}
 	log.Infof("Database connection initialized")
 
-	err = db.AutoMigrate(&model.Project{}, &model.Target{}, &model.Asset{})
+	err = db.AutoMigrate(&model.Project{}, &model.Target{}, &model.Asset{}, &model.Port{}, &model.DNS_Record{})
 	if err != nil {
 		return nil, fmt.Errorf("failed to migrate projects: %w", err)
 	}

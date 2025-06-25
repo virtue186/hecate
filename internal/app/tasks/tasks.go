@@ -30,3 +30,11 @@ func NewPortScanTask(assetID uuid.UUID, queue string) (*asynq.Task, error) { // 
 	}
 	return asynq.NewTask(TypePortScan, payload, asynq.Queue(queue)), nil
 }
+
+func NewDnsResolveTask(assetID uuid.UUID, queue string) (*asynq.Task, error) { // 新增
+	payload, err := json.Marshal(DnsResolvePayload{AssetID: assetID})
+	if err != nil {
+		return nil, err
+	}
+	return asynq.NewTask(TypeDnsResolve, payload, asynq.Queue(queue)), nil
+}

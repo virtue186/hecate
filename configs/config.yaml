@@ -38,3 +38,27 @@ tools:
     provider_config_file: "configs/subfinder_api.yaml"
     task_timeout_seconds: 7200 # 任务在 Asynq 中的超时时间(秒)
     task_max_retry: 2          # 任务失败后的最大重试次数
+
+  naabu: # 新增
+    ports: "top-100"  # 要扫描的端口，例如 "80,443,8080" 或 "top-100", "top-1000", "full"
+    rate: 500        # 每秒发包速率
+    timeout: 500      # 端口响应超时时间 (毫秒)
+    retries: 2        # 失败重试次数
+    scan_type: "sS"   # 扫描类型
+    exclude_cdn: true # 是否排除已知的CDN IP地址
+    enable_nmap: true # 是否启用 nmap 服务扫描
+    nmap_cli: "nmap -sV -O" # 传递给 nmap 的具体命令参数
+
+
+  dnsx: # 新增
+    threads: 100    # DNS查询的并发数
+    retries: 3      # 查询失败的重试次数
+    resolvers: # [新增] 添加你希望使用的DNS服务器
+      - "223.5.5.5:53"
+      - "223.6.6.6:53"
+      - "119.29.29.29:53"
+      - "182.254.116.116:53"
+      - "180.76.76.76:53"
+      - "114.114.114.114:53"
+      - "114.114.115.115:53"
+      - "210.2.4.8:53"

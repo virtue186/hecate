@@ -2,7 +2,7 @@ package model
 
 import "github.com/google/uuid"
 
-// AssetType 定义了资产的类型
+// AssetType 定义资产的类型
 type AssetType string
 
 const (

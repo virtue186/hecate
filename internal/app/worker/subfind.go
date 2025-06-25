@@ -69,20 +69,22 @@ func (p *TaskProcessor) HandleSubdomainDiscoveryTask(ctx context.Context, t *asy
 		if asset.ID == uuid.Nil {
 			continue
 		}
-		portScanTask, err := tasks.NewPortScanTask(asset.ID, "default")
+		// [修改] 创建 DnsResolveTask
+		resolveTask, err := tasks.NewDnsResolveTask(asset.ID, "default")
 		if err != nil {
-			p.Log.WithError(err).Errorf("Failed to create port scan task for asset %s", asset.Value)
+			p.Log.WithError(err).Errorf("Failed to create dns resolve task for asset %s", asset.Value)
 			continue
 		}
-		_, err = p.AsynqClient.Enqueue(portScanTask)
+		// [修改] 推送 DnsResolveTask
+		_, err = p.AsynqClient.Enqueue(resolveTask)
 		if err != nil {
-			p.Log.WithError(err).Errorf("Failed to enqueue port scan task for asset %s", asset.Value)
+			p.Log.WithError(err).Errorf("Failed to enqueue dns resolve task for asset %s", asset.Value)
 			continue
 		}
 		enqueuedCount++
 	}
 
-	p.Log.Infof("Enqueued %d port scan tasks for newly discovered assets.", enqueuedCount)
+	p.Log.Infof("Enqueued %d dns resolve tasks for newly discovered assets.", enqueuedCount)
 
 	return nil
 }

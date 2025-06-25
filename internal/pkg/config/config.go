@@ -41,8 +41,28 @@ type SubfinderConfig struct {
 	TaskTimeoutSeconds int    `mapstructure:"task_timeout_seconds"` // 新增
 	TaskMaxRetry       int    `mapstructure:"task_max_retry"`       // 新增
 }
+
+type NaabuConfig struct {
+	Ports      string `mapstructure:"ports"`
+	Rate       int    `mapstructure:"rate"`
+	Timeout    int    `mapstructure:"timeout"`
+	Retries    int    `mapstructure:"retries"`
+	ScanType   string `mapstructure:"scan_type"`
+	EnableNmap bool   `mapstructure:"enable_nmap"`
+	NmapCLI    string `mapstructure:"nmap_cli"`
+	ExcludeCdn bool   `mapstructure:"exclude_cdn"`
+}
+
+type DnsxConfig struct {
+	Threads   int      `mapstructure:"threads"`
+	Retries   int      `mapstructure:"retries"`
+	Resolvers []string `mapstructure:"resolvers"`
+}
+
 type ToolsConfig struct {
 	Subfinder SubfinderConfig `mapstructure:"subfinder"`
+	Naabu     NaabuConfig     `mapstructure:"naabu"`
+	Dnsx      DnsxConfig      `mapstructure:"dnsx"`
 }
 
 type Config struct {

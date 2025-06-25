@@ -1,6 +1,7 @@
 package store
 
 import (
+	"github.com/google/uuid"
 	"gorm.io/gorm"
 	"gorm.io/gorm/clause"
 	"hecate/internal/app/model"
@@ -8,6 +9,7 @@ import (
 
 type AssetStore interface {
 	CreateBatch(assets []*model.Asset) error
+	FindByID(id uuid.UUID) (*model.Asset, error)
 }
 
 func NewAssetStore(db *gorm.DB) AssetStore {
@@ -29,4 +31,10 @@ func (s *dbAssetStore) CreateBatch(assets []*model.Asset) error {
 	// OnConflict(clause.DoNothing) 会在遇到唯一索引冲突时，直接忽略该条记录的插入。
 	// 重要的是，GORM 的 Create 方法在 Create a slice 时，会回填ID。
 	return s.db.Clauses(clause.OnConflict{DoNothing: true}).Create(&assets).Error
+}
+
+func (s *dbAssetStore) FindByID(id uuid.UUID) (*model.Asset, error) {
+	var asset model.Asset
+	err := s.db.First(&asset, "id = ?", id).Error
+	return &asset, err
 }

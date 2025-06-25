@@ -30,6 +30,8 @@ func main() {
 	// 创建 store 实例
 	projectStore := store.NewProjectStore(db)
 	assetStore := store.NewAssetStore(db)
+	dnsRecordStore := store.NewDnsRecordStore(db)
+	portStore := store.NewPortStore(db)
 
 	// 为 Worker 创建 Asynq Client 实例 (用于任务链)
 	asynq_client.InitClient(&cfg.Redis)
@@ -60,17 +62,20 @@ func main() {
 
 	// 创建并注入依赖到 TaskProcessor
 	processor := &worker.TaskProcessor{
-		Log:          log,
-		Cfg:          cfg,
-		ProjectStore: projectStore,
-		AssetStore:   assetStore,
-		AsynqClient:  asynqClient,
+		Log:            log,
+		Cfg:            cfg,
+		ProjectStore:   projectStore,
+		AssetStore:     assetStore,
+		AsynqClient:    asynqClient,
+		DnsRecordStore: dnsRecordStore,
+		PortStore:      portStore,
 	}
 
 	// 注册所有任务处理器
 	mux := asynq.NewServeMux()
 	mux.HandleFunc(tasks.TypeSubdomainDiscovery, processor.HandleSubdomainDiscoveryTask)
-	mux.HandleFunc(tasks.TypePortScan, processor.HandlePortScanTask) // 注册占位符
+	mux.HandleFunc(tasks.TypeDnsResolve, processor.HandleDnsResolveTask)
+	mux.HandleFunc(tasks.TypePortScan, processor.HandlePortScanTask)
 
 	log.Info("Starting Asynq worker...")
 	if err := asynqServer.Run(mux); err != nil {
